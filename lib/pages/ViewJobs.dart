@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:githubjobs/pages/JobDetails.dart';
 import 'package:githubjobs/providers/BaseProvider.dart';
 import 'package:githubjobs/providers/GithubJobsProvider.dart';
 import 'package:provider/provider.dart';
@@ -72,7 +73,6 @@ class _ViewJobsPageState extends State<ViewJobsPage> {
           return Scaffold(
             appBar: AppBar(
               centerTitle: true,
-              backgroundColor: Colors.black,
               actions: [
                 if (_isLoading)
                   Container(
@@ -177,27 +177,33 @@ class _ViewJobsPageState extends State<ViewJobsPage> {
                               )
                             ],
                           ),
-                          onTap: () {},
-                          leading: Container(
-                            height: 60,
-                            width: 60,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.grey.shade100,
-                            ),
-                            child: _compLogo == null
-                                ? Icon(Icons.emoji_flags)
-                                : CachedNetworkImage(
-                                    imageUrl: _compLogo,
-                                    fit: BoxFit.cover,
-                                    progressIndicatorBuilder: (_, __, x) => Center(
-                                      child: SizedBox(
-                                        width: 20,
-                                        height: 20,
-                                        child: CircularProgressIndicator(strokeWidth: 2),
+                          onTap: () {
+                            Navigator.of(context).pushNamed(JobDetails.id, arguments: {'job': _item});
+                          },
+                          leading: Hero(
+                            tag: 'job_${_item.id}',
+                            child: Container(
+                              height: 60,
+                              width: 60,
+                              padding: const EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.grey.shade100,
+                              ),
+                              child: _compLogo == null
+                                  ? Icon(Icons.emoji_flags)
+                                  : CachedNetworkImage(
+                                      imageUrl: _compLogo,
+                                      fit: BoxFit.cover,
+                                      progressIndicatorBuilder: (_, __, x) => Center(
+                                        child: SizedBox(
+                                          width: 20,
+                                          height: 20,
+                                          child: CircularProgressIndicator(strokeWidth: 2),
+                                        ),
                                       ),
                                     ),
-                                  ),
+                            ),
                           ),
                         ),
                       );
